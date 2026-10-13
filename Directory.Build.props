@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <!-- The one place the version lives (SemVer). A release tag vX.Y.Z must match it. -->
+    <Version>0.1.0</Version>
+    <Product>Intention Lab</Product>
+    <Copyright>Copyright (c) 2026 Intention Lab contributors</Copyright>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>14</LangVersion>
+    <Deterministic>true</Deterministic>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <!-- CI builds map source paths to /_/. -->
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+  <!-- Release binaries carry no symbols, and so no paths from the machine that built them. -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+</Project>

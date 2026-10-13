@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en" data-lab="off">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0d0a08" />
+    <title>Intention Lab</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/Fraunces.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Archivo.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar">
+      <a class="wordmark" href="#play" aria-label="Intention Lab, play">
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <circle cx="10" cy="10" r="8.2" fill="none" stroke="#85755f" stroke-width="1.2" />
+          <path d="M5.4 10.6c.6-1.6 1.2-1.6 1.8 0s1.2 1.6 1.8 0 1.2-1.6 1.8 0 1.2 1.6 1.8 0 1.2-1.6 1.8 0" fill="none" stroke="#ffb464" stroke-width="1.3" stroke-linecap="round" />
+        </svg>
+        Intention Lab
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="#play" data-nav="play" data-icon="play">Play</a>
+        <a href="#challenge" data-nav="challenge" data-icon="flag">Challenge</a>
+        <a href="#history" data-nav="history" data-icon="history">History</a>
+        <a href="#progress" data-nav="progress" data-icon="trend">Progress</a>
+        <a href="#settings" data-nav="settings" data-icon="sliders">Settings</a>
+        <button class="guide-button" type="button" data-guide="session" aria-label="Guide: how it works" title="How it works">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.3" fill="none" stroke="currentColor" stroke-width="1.3" /><circle cx="10" cy="6.2" r="1.15" fill="currentColor" /><path d="M10 9v5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /></svg>
+          <span class="nav-label" aria-hidden="true">Guide</span>
+        </button>
+      </nav>
+      <div class="topbar-end">
+        <button id="device-status" class="device-status" type="button" aria-haspopup="dialog">
+          <span id="device-dot" class="dot" aria-hidden="true"></span><span id="device-word">Looking</span>
+        </button>
+        <div class="mode" role="group" aria-label="Mode" aria-describedby="mode-desc" title="Simple: the game and plain explanations. Lab: the same app plus the measurements, equations and research tools.">
+          <button type="button" data-mode="simple" data-icon="feather" aria-pressed="true">Simple</button>
+          <button type="button" data-mode="lab" data-icon="flask" aria-pressed="false">Lab</button>
+        </div>
+        <span id="mode-desc" class="sr-only">Simple shows the game and plain explanations. Lab adds the measurements, equations, filters, exports and simulation.</span>
+        <button class="guide-button" type="button" data-guide="session" aria-label="Guide: how it works" title="How it works">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.3" fill="none" stroke="currentColor" stroke-width="1.3" /><circle cx="10" cy="6.2" r="1.15" fill="currentColor" /><path d="M10 9v5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+      <a id="return-to-session" class="return-banner" href="#play" hidden>A session is running. Return to it.</a>
+
+      <section id="play" class="page" aria-label="Play">
+        <div id="home" class="view home">
+          <div id="home-challenge" class="again" hidden>
+            <p id="home-challenge-text"></p>
+            <button id="home-challenge-button" class="secondary" type="button">Continue</button>
+          </div>
+          <div id="again" class="again" hidden>
+            <p id="again-text"></p>
+            <button id="again-button" class="primary" type="button">Play again</button>
+          </div>
+          <div class="instruments">
+            <button class="instrument-card lit" data-game="Bulb" type="button" aria-label="Play Bulb: make the filament brighter and dimmer">
+              <span id="home-bulb" class="instrument-view"></span>
+              <span class="instrument-name">Bulb</span>
+              <span class="instrument-line">Make the filament brighter and dimmer.</span>
+            </button>
+            <button class="instrument-card lit" data-game="Bar" type="button" aria-label="Play Bar: push the needle up and down">
+              <span id="home-bar" class="instrument-view"></span>
+              <span class="instrument-name">Bar</span>
+              <span class="instrument-line">Push the needle up and down.</span>
+            </button>
+            <button class="instrument-card lit" data-game="Box" type="button" aria-label="Play Box: fill it with ones and zeros, sealed until the end">
+              <span id="home-box" class="instrument-view"></span>
+              <span class="instrument-name">Box</span>
+              <span class="instrument-line">Fill it with ones and zeros. Sealed until the end.</span>
+            </button>
+          </div>
+          <p id="home-device" class="home-device" hidden></p>
+          <p id="home-profile" class="home-device" hidden></p>
+        </div>
+
+        <div id="setup" class="view setup" hidden>
+          <button class="back" type="button" data-to="home">All games</button>
+          <div class="setup-grid">
+            <div class="setup-instrument lit" id="setup-frame">
+              <div id="setup-visual" class="instrument-view"></div>
+              <div class="preview-row">
+                <button id="preview" class="secondary small" type="button" aria-pressed="false">Try it</button>
+                <span id="preview-note" class="preview-note">Shows how the display moves with random data. Nothing is saved.</span>
+              </div>
+            </div>
+            <form id="setup-form" class="setup-form" novalidate>
+              <div>
+                <h1 id="setup-title" tabindex="-1">Bulb</h1>
+                <p id="setup-lede" class="setup-lede"></p>
+              </div>
+              <fieldset class="field">
+                <legend>Difficulty<button class="info" type="button" data-guide="levels" aria-label="How levels and goals work" title="How levels and goals work"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.3" fill="none" stroke="currentColor" stroke-width="1.3" /><circle cx="10" cy="6.2" r="1.15" fill="currentColor" /><path d="M10 9v5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /></svg></button></legend>
+                <div id="levels" class="choices"></div>
+                <p id="level-line" class="hint"></p>
+              </fieldset>
+              <fieldset class="field">
+                <legend>Time for each direction</legend>
+                <div id="durations" class="choices"></div>
+                <p id="time-line" class="hint"></p>
+              </fieldset>
+              <div class="field sound-field">
+                <label class="check sound-check"><input id="sound" type="checkbox" /><span class="sound-on" data-icon="sound"></span><span class="sound-off" data-icon="mute"></span>Sound</label>
+                <p id="sound-line" class="hint"></p>
+                <div id="phones-row" class="phones-row" hidden>
+                  <label class="check"><input id="phones" type="checkbox" />I am wearing headphones</label>
+                  <p class="hint">Each ear then gets one of the drone's two tones, and you hear the pulse between them as a binaural beat.</p>
+                </div>
+              </div>
+              <details class="note">
+                <summary>Add a note</summary>
+                <label>Anything you want to remember about this session
+                  <textarea id="note" rows="3" maxlength="4000" placeholder="How you feel, what you will try"></textarea>
+                </label>
+                <label class="lab-only">Tags, separated by commas
+                  <input id="tags" maxlength="500" placeholder="morning, breathing" />
+                </label>
+              </details>
+              <div class="begin">
+                <button id="begin" class="primary large" type="submit">Begin</button>
+                <p id="begin-hint" class="hint"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div id="stage" class="view stage lit" hidden>
+          <div id="stage-visual" class="stage-visual"></div>
+          <div class="stage-top">
+            <span id="stage-source" class="tag sim" hidden>Simulation</span>
+            <div class="stop">
+              <button id="stop" class="quiet" type="button">Stop</button>
+              <span id="stop-confirm" hidden>
+                Stop now? The attempt is kept as incomplete.
+                <button id="stop-yes" class="secondary small" type="button">Stop</button>
+                <button id="stop-no" class="quiet small" type="button">Keep going</button>
+              </span>
+            </div>
+          </div>
+          <div class="stage-text">
+            <p id="instruction" class="instruction">Get ready</p>
+            <p id="clock" class="clock" aria-hidden="true">0:05</p>
+            <div id="track" class="track" aria-hidden="true"></div>
+            <button id="stage-continue" class="primary large stage-continue" type="button" hidden>See your score</button>
+          </div>
+          <p id="announcer" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+          <details id="live-details" class="live-details lab-only">
+            <summary>Details</summary>
+            <p id="live-numbers"></p>
+          </details>
+        </div>
+
+        <div id="result" class="view result" hidden></div>
+      </section>
+
+      <section id="history" class="page" hidden>
+        <div class="wrap" id="history-content"></div>
+      </section>
+
+      <section id="progress" class="page" hidden>
+        <div class="wrap">
+          <div class="page-head"><h1>Progress</h1></div>
+          <div id="progress-content"></div>
+          <div id="analytics-content" class="lab-only lab-section"></div>
+        </div>
+      </section>
+
+      <section id="settings" class="page" hidden>
+        <div class="wrap">
+          <div class="page-head"><h1>Settings</h1></div>
+          <div id="settings-content" class="settings"></div>
+        </div>
+      </section>
+
+      <section id="challenge" class="page" hidden>
+        <div class="wrap">
+          <div class="page-head"><h1>Challenge</h1></div>
+          <div id="challenge-content"></div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="device-dialog" aria-labelledby="device-title">
+      <form class="sheet" method="dialog" id="device-form">
+        <div class="sheet-head">
+          <h2 id="device-title">Device</h2>
+          <button class="icon-close" type="button" data-close aria-label="Close">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+          </button>
+        </div>
+        <fieldset class="lab-only">
+          <legend>Source</legend>
+          <div class="choices segmented" id="source-choice">
+            <label><input type="radio" name="source" value="Hardware" checked /><span>Device</span></label>
+            <label><input type="radio" name="source" value="Simulation" /><span>Simulation</span></label>
+          </div>
+        </fieldset>
+        <div id="hardware-panel" class="setting-body">
+          <p id="device-state" class="device-state"><span class="dot"></span><span>Not connected</span></p>
+          <p id="device-hint" class="hint"></p>
+          <ul id="device-list" class="device-list"></ul>
+          <label id="confirm-row" class="check" hidden><input id="confirm-port" type="checkbox" /> This unidentified port is my random number generator.</label>
+          <div class="row"><button id="refresh" class="quiet small" type="button">Look again</button></div>
+        </div>
+        <div id="sim-panel" class="setting-body lab-only" hidden>
+          <p class="hint">Software bytes through the same capture pipeline. Simulation sessions are saved separately and never mix with your device's results.</p>
+          <div class="field-grid">
+            <label>Scenario
+              <select id="sim-scenario">
+                <option value="Unbiased">Unbiased</option>
+                <option value="CommonBias">Common bias</option>
+                <option value="IntentionShift">Intention shift</option>
+                <option value="Drift">Drift</option>
+                <option value="Correlated">Correlated blocks</option>
+                <option value="Interrupted">Interrupted</option>
+                <option value="Disconnection">Disconnection</option>
+              </select>
+            </label>
+            <label>Seed<input id="sim-seed" type="number" value="12345" /></label>
+            <label>Bytes per second<input id="sim-rate" type="number" value="50000" min="1000" max="1000000" /></label>
+            <label>Common bias<input id="sim-bias" type="number" value="0.001" step="0.00001" /></label>
+            <label>Intention shift<input id="sim-shift" type="number" value="0.00018" step="0.00001" /></label>
+            <label>Drift per minute<input id="sim-drift" type="number" value="0.0002" step="0.00001" /></label>
+            <label>Fault after seconds<input id="sim-failure" type="number" value="12" min="1" /></label>
+          </div>
+        </div>
+        <div class="sheet-actions">
+          <button id="disconnect" class="secondary" type="button" hidden>Disconnect</button>
+          <button id="connect" class="primary" type="button">Connect</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="guide" class="drawer" aria-labelledby="guide-title">
+      <div class="drawer-head">
+        <h2 id="guide-title">How it works</h2>
+        <button class="icon-close" type="button" data-close aria-label="Close the guide">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+        </button>
+      </div>
+      <div id="guide-body" class="guide"></div>
+    </dialog>
+    <section id="quit-screen" class="quit-screen" hidden>
+      <h1>Intention Lab has quit</h1>
+      <p>The device is released and nothing is left running. You can close this tab.</p>
+      <p class="fine">To play again, start DeviceBridge.</p>
+    </section>
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

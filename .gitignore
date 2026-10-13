@@ -1,0 +1,34 @@
+# Build output. Releases are built by .github/workflows/release.yml.
+**/bin/
+**/obj/
+dist/
+# Packages and checksums made by hand
+/IntentionLab-*.zip
+/IntentionLab-*.tar.gz
+/SHA256SUMS.txt
+
+# Test dependencies and output
+node_modules/
+test-results/
+
+# Editors and IDEs (Visual Studio recreates launchSettings.json)
+.vs/
+.vscode/
+.idea/
+*.user
+*.swp
+**/Properties/launchSettings.json
+
+# Personal and local settings
+.claude/settings.local.json
+CLAUDE.local.md
+.env
+.env.*
+
+# Logs
+*.log
+
+# Operating system clutter
+.DS_Store
+Thumbs.db
+desktop.ini

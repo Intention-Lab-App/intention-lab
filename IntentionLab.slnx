@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="bridge/DeviceBridge.csproj" />
+  <Project Path="tests/bridge/BridgeChecks.csproj" />
+</Solution>

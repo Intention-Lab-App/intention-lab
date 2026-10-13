@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: npm ci --ignore-scripts
+      - name: Core, statistics, score and protocol
+        run: node --test tests/*.test.js
+      - name: Simulated null experiments
+        run: node tests/null-experiments.mjs
+      - name: Score calibration
+        run: node tests/score-calibration.mjs
+      - name: Bridge transport checks
+        run: dotnet run --project tests/bridge/BridgeChecks.csproj -c Release
